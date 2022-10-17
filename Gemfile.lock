@@ -1,0 +1,19 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    gruff (0.19.0)
+      histogram
+      rmagick (>= 4.2)
+    histogram (0.2.4.1)
+    mqtt (0.5.0)
+    rmagick (5.0.0)
+
+PLATFORMS
+  x86_64-darwin-21
+
+DEPENDENCIES
+  gruff
+  mqtt
+
+BUNDLED WITH
+   2.3.22

@@ -1,0 +1,5 @@
+mqtt_host: 
+mqtt_username: 
+mqtt_password: 
+devices:
+  - your_phone
