@@ -72,11 +72,12 @@ at_exit do
   
   recording.each do |room, devices|
     devices.each do |device, rows|
-      next unless device == 'nathans_iphone'
+      # next unless device == 'nathans_iphone'
       g.data "#{room} - #{device_names[device] || device}", rows.map { |row| row[1] }
     end
   end
   g.write("recordings/#{ROOM}.png")
+  puts "Graph saved to: recordings/#{ROOM}.png"
 end
 
 current_time = Time.now.to_i
@@ -87,10 +88,10 @@ client = MQTT::Client.connect(connection_string) do |c|
     # espresense/devices/mashas_iphone/nathans_office
     device = topic.split('/')[2]
     room = topic.split('/')[3]
-    next unless device_names.keys.include?(device)
+    next unless device_names.keys.include?(device) && room == ROOM
     # puts "#{topic}: #{message}"
 
-    elapsed_seconds = Time.now.to_i - current_time
+    # elapsed_seconds = Time.now.to_i - current_time
      
     message = JSON.parse(message_string)
     recording[room] ||= {}
@@ -99,8 +100,8 @@ client = MQTT::Client.connect(connection_string) do |c|
     next_row = [ message['rssi'], message['distance'] ]
 
     puts "[#{room}] #{device_names[device] || device}: #{next_row.join(', ')}"
-    # recording[room][device] << next_row
-    recording[room][device][elapsed_seconds] = next_row
+    recording[room][device] << next_row
+    # recording[room][device][elapsed_seconds] = next_row
   end
 end
 
